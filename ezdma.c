@@ -42,6 +42,8 @@
 
 #define SEM_TAKE_TIMEOUT (5)
 
+
+// dma_related
 enum ezdma_dir {
     EZDMA_DEV_TO_CPU = 1,   // RX
     EZDMA_CPU_TO_DEV = 2,   // TX
@@ -107,6 +109,7 @@ struct ezdma_pdev_drvdata {
                                     // relation to this platform device
 };
 
+//===================================================
 
 #define NUM_DEVICE_NUMBERS_TO_ALLOCATE (8)
 static dev_t base_devno;
