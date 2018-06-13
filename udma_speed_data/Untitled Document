@@ -1,0 +1,84 @@
+UDMA: 
+
+ (dma+opencore_aes) clock:250mhz
+
+		sent 10000 times write 32 byte read 16 byte in 0.460948318 sec:0.331 MB/s
+		sent 10000 times write 32 byte read 16 byte in 0.460485282 sec:0.331 MB/s
+		sent 10000 times write 32 byte read 16 byte in 0.460460955 sec:0.331 MB/s
+		sent 10000 times write 32 byte read 16 byte in 0.460710642 sec:0.331 MB/s
+		sent 10000 times write 32 byte read 16 byte in 0.461060136 sec:0.331 MB/s
+		sent 10000 times write 32 byte read 16 byte in 0.460602816 sec:0.331 MB/s
+		sent 10000 times write 32 byte read 16 byte in 0.460455558 sec:0.331 MB/s
+		sent 10000 times write 32 byte read 16 byte in 0.460093981 sec:0.332 MB/s
+		sent 10000 times write 32 byte read 16 byte in 0.460610541 sec:0.331 MB/s
+		sent 10000 times write 32 byte read 16 byte in 0.460289850 sec:0.332 MB/s
+
+ (dma+ecdsa) clock:10mhz
+
+		sent 1000 times write 128 byte read 128 byte in 7.843229031 sec:0.016 MB/s
+		sent 1000 times write 128 byte read 128 byte in 7.850555316 sec:0.016 MB/s
+		sent 1000 times write 128 byte read 128 byte in 7.850829968 sec:0.016 MB/s
+		sent 1000 times write 128 byte read 128 byte in 7.850817927 sec:0.016 MB/s
+		sent 1000 times write 128 byte read 128 byte in 7.850825922 sec:0.016 MB/s
+		sent 1000 times write 128 byte read 128 byte in 7.850830257 sec:0.016 MB/s
+		sent 1000 times write 128 byte read 128 byte in 7.850835897 sec:0.016 MB/s
+		sent 1000 times write 128 byte read 128 byte in 7.850820789 sec:0.016 MB/s
+		sent 1000 times write 128 byte read 128 byte in 7.850825769 sec:0.016 MB/s
+		sent 1000 times write 128 byte read 128 byte in 7.850824191 sec:0.016 MB/s
+
+
+
+ (dma+fifo)  clock:100mhz
+		
+		sent 10000 times write 2048 byte read 2048 byte in 1.155194402 sec:16.907 MB/s
+		sent 10000 times write 2048 byte read 2048 byte in 1.164997262 sec:16.765 MB/s
+		sent 10000 times write 2048 byte read 2048 byte in 1.155894368 sec:16.897 MB/s
+		sent 10000 times write 2048 byte read 2048 byte in 1.159525889 sec:16.844 MB/s
+		sent 10000 times write 2048 byte read 2048 byte in 1.151086394 sec:16.968 MB/s
+		sent 10000 times write 2048 byte read 2048 byte in 1.154513348 sec:16.917 MB/s
+		sent 10000 times write 2048 byte read 2048 byte in 1.168374446 sec:16.717 MB/s
+		sent 10000 times write 2048 byte read 2048 byte in 1.178212749 sec:16.577 MB/s
+		sent 10000 times write 2048 byte read 2048 byte in 1.165008812 sec:16.765 MB/s
+		sent 10000 times write 2048 byte read 2048 byte in 1.166668772 sec:16.741 MB/s
+
+EZDMA:
+ (dma+opencore_aes) clock:250mhz
+
+		sent 10000 times write 32 byte read 16 byte in 0.455826888 sec:0.335 MB/s
+		sent 10000 times write 32 byte read 16 byte in 0.455749503 sec:0.335 MB/s
+		sent 10000 times write 32 byte read 16 byte in 0.455836458 sec:0.335 MB/s
+		sent 10000 times write 32 byte read 16 byte in 0.455435445 sec:0.335 MB/s
+		sent 10000 times write 32 byte read 16 byte in 0.455512329 sec:0.335 MB/s
+		sent 10000 times write 32 byte read 16 byte in 0.455899716 sec:0.335 MB/s
+		sent 10000 times write 32 byte read 16 byte in 0.456211908 sec:0.334 MB/s
+		sent 10000 times write 32 byte read 16 byte in 0.456530655 sec:0.334 MB/s
+		sent 10000 times write 32 byte read 16 byte in 0.456744000 sec:0.334 MB/s
+		sent 10000 times write 32 byte read 16 byte in 0.456769425 sec:0.334 MB/s
+ (dma+ecdsa) clock:10mhz
+
+		sent 1000 times write 128 byte read 128 byte in 7.927409329 sec:0.015 MB/s
+		sent 1000 times write 128 byte read 128 byte in 7.927592147 sec:0.015 MB/s
+		sent 1000 times write 128 byte read 128 byte in 7.927531663 sec:0.015 MB/s
+		sent 1000 times write 128 byte read 128 byte in 7.927455389 sec:0.015 MB/s
+		sent 1000 times write 128 byte read 128 byte in 7.927448668 sec:0.015 MB/s
+		sent 1000 times write 128 byte read 128 byte in 7.927610351 sec:0.015 MB/s
+		sent 1000 times write 128 byte read 128 byte in 7.927530055 sec:0.015 MB/s
+		sent 1000 times write 128 byte read 128 byte in 7.927488935 sec:0.015 MB/s
+		sent 1000 times write 128 byte read 128 byte in 7.927495546 sec:0.015 MB/s
+		sent 1000 times write 128 byte read 128 byte in 7.927373114 sec:0.015 MB/s
+		
+ (dma+fifo)  clock:100mhz
+
+		sent 10000 times write 2048 byte read 2048 byte in 1.184300880 sec:16.492 MB/s
+		sent 10000 times write 2048 byte read 2048 byte in 1.185041186 sec:16.481 MB/s
+		sent 10000 times write 2048 byte read 2048 byte in 1.184710902 sec:16.486 MB/s
+		sent 10000 times write 2048 byte read 2048 byte in 1.180145189 sec:16.550 MB/s
+		sent 10000 times write 2048 byte read 2048 byte in 1.195546527 sec:16.337 MB/s
+		sent 10000 times write 2048 byte read 2048 byte in 1.185456840 sec:16.476 MB/s
+		sent 10000 times write 2048 byte read 2048 byte in 1.189596413 sec:16.418 MB/s
+		sent 10000 times write 2048 byte read 2048 byte in 1.191116748 sec:16.397 MB/s
+		sent 10000 times write 2048 byte read 2048 byte in 1.179740969 sec:16.556 MB/s
+		sent 10000 times write 2048 byte read 2048 byte in 1.193403984 sec:16.366 MB/s
+
+
+
