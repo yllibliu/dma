@@ -32,7 +32,8 @@ For now, udma only support two channel device(one s2mm and one mm2s), please ens
 ## Compiling the Kernel
 We make a little modification on uio.c and uio_pdrv_genirq.c, so we need to replace these two files. Further, we add udma.c and udma.h, please put udma.c under "KERNEL_DIR/drivers/uio/" and udma.h under "KERNEL_DIR/include/linux/". After recompiling, you will get a Linux Kernel with UIO drvier supporting AXI DMA.
 
-
+## Shell Script
+We will write a shell script to help users doing these works including creating a virtual device node in devicetree file, replacing and adding files in Linux Kernel directory, compiling kernel, and generating boot files. 
 
 ## License (GPL)
 
