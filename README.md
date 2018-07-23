@@ -1,4 +1,7 @@
 # UDMA
+## Background
+We are used to controlling our custom AXI4-Full/Lite IP through UIO driver, but not AXI4-Stream IP. Because AXI4-Stream IP has different architecture(customStreamIP.jpg), the UIO device node will not be created. Instead, DMA controler will appearing, and UIO driver can't adapt this situation. As a result, we decide to make a little modification on UIO driver and make a little tricky setting in devicetree file. After modifying, we can control our custom AXI4-Stream IP through UIO driver.
+
 ## Usage
 1. Specify which dmaengine-compatible DMA channels you'd like to create userspace-accessible device files for in your device tree:
 
