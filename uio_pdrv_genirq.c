@@ -28,7 +28,7 @@
 #include <linux/of_platform.h>
 #include <linux/of_address.h>
 
-#include <linux/udma.h> // billy
+#include <linux/udma.h> 
 
 #define DRIVER_NAME "uio_pdrv_genirq"
 
@@ -214,7 +214,6 @@ static int uio_pdrv_genirq_probe(struct platform_device *pdev)
 		return ret;
 	}
  
-    // billy for udma
     int dma_num = check_udma(pdev);
 
 	if (dma_num>0){
@@ -227,7 +226,6 @@ static int uio_pdrv_genirq_probe(struct platform_device *pdev)
     	printk( KERN_ALERT KBUILD_MODNAME ": no udma need to be init.\n" );
 
 	}
-    //
 
 	platform_set_drvdata(pdev, priv);
 

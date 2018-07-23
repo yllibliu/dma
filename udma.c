@@ -32,37 +32,21 @@ static inline int udma_init(struct platform_device *pdev)
 	const char * p_dma_name;
 	int rv;
 
-	// tx channel init
-	//printk( KERN_WARNING KBUILD_MODNAME ": init start\n");
 	udma_tx_drvdata->pdev = pdev;
-	//printk( KERN_WARNING KBUILD_MODNAME ": udma_tx_drvdata->pdev = pdev; enter\n");
 	udma_tx_drvdata->in_use = 0;
-	//printk( KERN_WARNING KBUILD_MODNAME ": in_use enter\n");
 	udma_tx_drvdata->state = DMA_IDLE;
-	//printk( KERN_WARNING KBUILD_MODNAME ": DMA_IDLE enter\n");
     spin_lock_init( &udma_tx_drvdata->state_lock );
-    //printk( KERN_WARNING KBUILD_MODNAME ": spin_lock_init enter\n");
-    //list_add_tail( &udma_tx_drvdata->node, &p_pdev_info->udma_list );   dont know wut r doing
     sema_init( &udma_tx_drvdata->sem, 1 );
-    //printk( KERN_WARNING KBUILD_MODNAME ": sema_init enter\n");
     init_waitqueue_head( &udma_tx_drvdata->wq );
-    //printk( KERN_WARNING KBUILD_MODNAME ": init_waitqueue_head enter\n");
     atomic_set( &udma_tx_drvdata->packets_sent, 0 );
-    //printk( KERN_WARNING KBUILD_MODNAME ": packets_sent enter\n");
     atomic_set( &udma_tx_drvdata->packets_rcvd, 0 );
-    //printk( KERN_WARNING KBUILD_MODNAME ": packets_rcvd enter\n");
 
     rv = of_property_read_string_index( pdev->dev.of_node, "dma-names", 0 , &p_dma_name);
-    //printk( KERN_WARNING KBUILD_MODNAME ": of_property_read_string_index enter\n");
     strncpy( udma_tx_drvdata->name, p_dma_name, UDMA_DEV_NAME_MAX_CHARS-1 );
-    //printk( KERN_WARNING KBUILD_MODNAME ": strncpy enter\n");
     udma_tx_drvdata->name[UDMA_DEV_NAME_MAX_CHARS-1] = '\0';
-    //printk( KERN_WARNING KBUILD_MODNAME ": name enter\n");
 
     udma_tx_drvdata->dir = 2;	
-    //printk( KERN_WARNING KBUILD_MODNAME ": dir enter\n");
     udma_tx_drvdata->chan = dma_request_slave_channel(&pdev->dev, udma_tx_drvdata->name);
-
 
 	if ( !udma_tx_drvdata->chan )
 	{
@@ -84,7 +68,6 @@ static inline int udma_init(struct platform_device *pdev)
 	udma_rx_drvdata->in_use = 0;
 	udma_rx_drvdata->state = DMA_IDLE;
     spin_lock_init( &udma_rx_drvdata->state_lock );
-    //list_add_tail( &udma_rx_drvdata->node, &p_pdev_info->udma_list );   dont know wut r doing
     sema_init( &udma_rx_drvdata->sem, 1 );
     init_waitqueue_head( &udma_rx_drvdata->wq );
     atomic_set( &udma_rx_drvdata->packets_sent, 0 );
@@ -157,12 +140,10 @@ static void udma_dmaengine_callback_func(void *data)
     spin_lock_irqsave(&p_info->state_lock, iflags);
 
     if ( DMA_IN_FLIGHT == p_info->state )
-    {
-        //printk( KERN_ERR KBUILD_MODNAME ": callback function enter");   	
+    {	
         p_info->state = DMA_COMPLETING;
         wake_up_interruptible( &p_info->wq );
     }
-    // else: well, nevermind then...
     
     spin_unlock_irqrestore(&p_info->state_lock, iflags);
 }
@@ -403,20 +384,15 @@ static int check_not_in_flight( struct udma_drvdata * p_info )
 // 
 ssize_t udma_read(struct file *filp, char __user *userbuf, size_t count, loff_t *f_pos)
 {
-	//printk( KERN_WARNING KBUILD_MODNAME ": udma_read enter\n");
-    int rv;
+    int rv = count;
     if ( 0 != (count % UDMA_ALIGN_BYTES) )
     {
-        //printk( KERN_WARNING KBUILD_MODNAME ": %s: unaligned read of %u bytes requested\n", udma_rx_drvdata->name, count);
         return -EINVAL;
     }
-    //printk( KERN_WARNING KBUILD_MODNAME ": UDMA_ALIGN_BYTES pass\n");
     if ( down_interruptible( &udma_rx_drvdata->sem ) )
         return -ERESTARTSYS;
-	//printk( KERN_WARNING KBUILD_MODNAME ": down_interruptible pass\n");
     if ( !atomic_read(&udma_rx_drvdata->accepting ) )
     {
-        //printk( KERN_WARNING KBUILD_MODNAME ": atomic_read failed\n");
         rv = -EBADF;
         goto out;
     } 
@@ -432,12 +408,9 @@ ssize_t udma_read(struct file *filp, char __user *userbuf, size_t count, loff_t 
             rv = prep_rv;
             goto out;
         }
-		//printk( KERN_WARNING KBUILD_MODNAME ": udma_prepare_for_dma pass\n");
         up( &udma_rx_drvdata->sem );
 
         wait_rv = wait_event_interruptible( udma_rx_drvdata->wq, check_not_in_flight(udma_rx_drvdata) );
-		//while(!check_not_in_flight(udma_rx_drvdata)){}
-		//printk( KERN_WARNING KBUILD_MODNAME ": wait_event_interruptible pass\n");
         if ( down_timeout( &udma_rx_drvdata->sem, SEM_TAKE_TIMEOUT ) )
         {
             printk( KERN_ALERT KBUILD_MODNAME 
@@ -448,19 +421,16 @@ ssize_t udma_read(struct file *filp, char __user *userbuf, size_t count, loff_t 
         }
 
         spin_lock_irq(&udma_rx_drvdata->state_lock);
-        //printk( KERN_WARNING KBUILD_MODNAME ": spin_lock_irq pass\n");
 
         if ( udma_rx_drvdata->state == DMA_IN_FLIGHT && -ERESTARTSYS == wait_rv )
         {
             dmaengine_terminate_all( udma_rx_drvdata->chan );
             rv = wait_rv;
         }
-		//printk( KERN_WARNING KBUILD_MODNAME ": dmaengi_termi... pass\n");
 
         udma_unprepare_after_dma( udma_rx_drvdata );    // sets us back to DMA_IDLE
         spin_unlock_irq(&udma_rx_drvdata->state_lock);
     }
-	//printk( KERN_WARNING KBUILD_MODNAME ": all pass\n");
 
     out:
     up( &udma_rx_drvdata->sem );
@@ -472,27 +442,17 @@ EXPORT_SYMBOL_GPL(udma_read);
 
 ssize_t udma_write(struct file *filp, const char __user *userbuf, size_t count, loff_t *f_pos)
 {
-    //printk( KERN_WARNING KBUILD_MODNAME ": udma_write enter\n");
-    //struct udma_drvdata * p_info = (struct ezdma_drvdata*)filp->private_data;
     ssize_t rv = count;
 
-    // Ensure this is a writable device.
-    //if ( EZDMA_CPU_TO_DEV != p_info->dir )
-    //{
-    //    printk( KERN_WARNING KBUILD_MODNAME ": %s: can't write, is an RX device\n", p_info->name);
-    //    return -EINVAL;
-    //}
     if ( 0 != (count % UDMA_ALIGN_BYTES) )
     {
         printk( KERN_WARNING KBUILD_MODNAME ": %s: unaligned write of %u bytes requested\n", udma_tx_drvdata->name, count);
         return -EINVAL;
     }
-    //printk( KERN_WARNING KBUILD_MODNAME ": UDMA_ALIGN_BYTES enter\n");
-    // Ensure this is a writable device.
 
     if ( down_interruptible( &udma_tx_drvdata->sem ) )
         return -ERESTARTSYS;
-    //printk( KERN_WARNING KBUILD_MODNAME ": down_interruptible enter\n");
+
     if ( !atomic_read(&udma_tx_drvdata->accepting ) )
     {
         rv = -EBADF;
@@ -510,14 +470,10 @@ ssize_t udma_write(struct file *filp, const char __user *userbuf, size_t count, 
             rv = prep_rv;
             goto out;
         }
-    	//printk( KERN_WARNING KBUILD_MODNAME ": wait_event_interruptible enter\n");
 
         up( &udma_tx_drvdata->sem );
 
         wait_rv = wait_event_interruptible( udma_tx_drvdata->wq, check_not_in_flight(udma_tx_drvdata) );
-        //while(!check_not_in_flight(udma_tx_drvdata)){}
-        // this will return -512 if replace fifo with our own custom ip.
-    	//printk( KERN_WARNING KBUILD_MODNAME ": wait_event_interruptible end\n");
 
         if ( down_timeout( &udma_tx_drvdata->sem, SEM_TAKE_TIMEOUT ) )
         {
@@ -527,29 +483,19 @@ ssize_t udma_write(struct file *filp, const char __user *userbuf, size_t count, 
                     SEM_TAKE_TIMEOUT);
             goto noup_out;
         }
-    	//printk( KERN_WARNING KBUILD_MODNAME ": spin_lock_irq enter\n");
 
         spin_lock_irq(&udma_tx_drvdata->state_lock);
-        //printk( KERN_WARNING KBUILD_MODNAME ": spin_lock_irq end\n");
    
         if ( udma_tx_drvdata->state == DMA_IN_FLIGHT && -ERESTARTSYS == wait_rv )
         {
-        	//printk( KERN_WARNING KBUILD_MODNAME ": dmaengine_terminate_all enter\n");
-
+        	
             dmaengine_terminate_all( udma_tx_drvdata->chan );
-           	//printk( KERN_WARNING KBUILD_MODNAME ": dmaengine_terminate_all end:%d\n",rv);
-    
+  
             rv = wait_rv;
         }
-    	//printk( KERN_WARNING KBUILD_MODNAME ": udma_unprepare_after_dma enter\n");
 
         udma_unprepare_after_dma( udma_tx_drvdata );    // sets us back to DMA_IDLE
-      	//printk( KERN_WARNING KBUILD_MODNAME ": udma_unprepare_after_dma end\n");
-
-    	//printk( KERN_WARNING KBUILD_MODNAME ": spin_unlock_irq enter\n");
-
         spin_unlock_irq(&udma_tx_drvdata->state_lock);
-    	//printk( KERN_WARNING KBUILD_MODNAME ": spin_unlock_irq end\n");
 
     }
 
