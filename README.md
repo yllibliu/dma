@@ -1,5 +1,5 @@
-#dma
-##Usage
+# UDMA
+## Usage
 1. Specify which dmaengine-compatible DMA channels you'd like to create userspace-accessible device files for in your device tree:
 
     ```
